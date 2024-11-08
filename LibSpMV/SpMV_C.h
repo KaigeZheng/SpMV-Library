@@ -5,7 +5,7 @@ typedef struct {
     int* row;
     int* col;
     double* value;
-    int size; // 记录非零元素的数量
+    int size; // Record the number of non-zero elements
 } COO;
 
 typedef struct {
@@ -13,14 +13,14 @@ typedef struct {
     int* index;
     double* value;
     int numRows;
-    int numNonZero; // 记录非零元素的数量
+    int numNonZero; // Record the number of non-zero elements
 } CSR;
 
 COO convert2COO(double** matrix, int numRows, int numCols) {
     COO coo;
     coo.size = 0;
 
-    // 分配了所有非零元的空间(实际不需要)
+    // Allocated space for all non-zero elements (actually not needed)
     coo.row = (int*)malloc(numRows * numCols * sizeof(int));
     coo.col = (int*)malloc(numRows * numCols * sizeof(int));
     coo.value = (double*)malloc(numRows * numCols * sizeof(double));
@@ -50,25 +50,25 @@ CSR convert2CSR(double** matrix, int numRows, int numCols) {
     csr.numRows = numRows;
     csr.numNonZero = 0;
 
-    // 初始化行指针
+    // Initialize row pointers
     csr.rowPtr = (int*)malloc((numRows + 1) * sizeof(int));
     csr.rowPtr[0] = 0;
 
-    // 计算非零元素数量
+    // Calculate the number of non-zero elements
     for (int i = 0; i < numRows; ++i) {
         for (int j = 0; j < numCols; ++j) {
             if (matrix[i][j] != 0) {
                 csr.numNonZero++;
             }
         }
-        csr.rowPtr[i + 1] = csr.rowPtr[i]; // 初始化行指针
+        csr.rowPtr[i + 1] = csr.rowPtr[i]; // Initialize row pointers
     }
 
-    // 为值和列索引分配内存
+    // Allocate memory for values and column indices
     csr.value = (double*)malloc(csr.numNonZero * sizeof(double));
     csr.index = (int*)malloc(csr.numNonZero * sizeof(int));
 
-    // 填充值和列索引，并更新行指针
+    // Fill in values and column indices, and update row pointers
     int idx = 0;
     for (int i = 0; i < numRows; ++i) {
         for (int j = 0; j < numCols; ++j) {
@@ -81,7 +81,7 @@ CSR convert2CSR(double** matrix, int numRows, int numCols) {
         }
     }
 
-    // 将行指针转换为累计和
+    // Convert row pointers to cumulative sums
     for (int i = 1; i <= numRows; ++i) {
         csr.rowPtr[i] += csr.rowPtr[i - 1];
     }

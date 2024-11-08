@@ -23,7 +23,7 @@ void demo_2D() {
     A[2][0] = 0; A[2][1] = 0; A[2][2] = 1;
 
     double x[] = {1, 2, 3};
-    double* result = (double*)malloc(m * sizeof(double)); // 动态分配结果向量
+    double* result = (double*)malloc(m * sizeof(double)); // Dynamically allocate the result vector
 
     SpMV_2D(A, m, n, x, result);
 

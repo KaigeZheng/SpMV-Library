@@ -8,7 +8,7 @@ struct CSR {
 };
 
 std::vector<double> SpMV_CSR(const CSR& csr, const std::vector<double>& x) {
-    int m = csr.rowPtr.size() - 1; // 行数等于 rowPtr 的大小减去 1
+    int m = csr.rowPtr.size() - 1; // The number of rows is euqal to the size of rowPtr minus 1
     std::vector<double> result(m, 0.0); 
 
     for (int i = 0; i < m; ++i) {
